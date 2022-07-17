@@ -1,52 +1,50 @@
-import React from "react";
-import { nanoid } from 'nanoid'
+import React from 'react';
+import { nanoid } from 'nanoid';
+import {Formik} from 'formik'
 
 class Form extends React.Component {
-    state = {
-        name: '',
-        number: '',
-    }
-    nameInputId = nanoid();
-    numberInputId = nanoid();
+  state = {
+    name: '',
+    number: '',
+  };
+  // InputId = nanoid();
 
-    handleInputChange = e => {
-        // console.log(e.currentTarget);
-        // console.log(e.currentTarget.value);
-        // console.log(e.currentTarget.name);
-        this.setState({ [e.currentTarget.name]: e.currentTarget.value });
-    };
+  handleInputChange = e => {
+    this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+  };
 
-    handleSubmit = e => {
+  handleSubmit = e => {
     e.preventDefault();
-    // console.log(this.state);
-    this.props.onSubmit(this.state);
-    
+    const id = nanoid();
+    this.props.onSubmit({ id, ...this.state });
     this.reset();
   };
-    reset = () => {
-      this.setState({
-        name: '',
-        number: '',
-    })
-  }
+  reset = () => {
+    this.setState({
+      name: '',
+      number: '',
+    });
+  };
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-        <label htmlFor={this.nameInputId}> {' '} Name</label>
-          
-          <input id={this.nameInputId}
-            value={this.state.name}
-            onChange={this.handleInputChange}
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-        <label htmlFor={this.numberInputId}>Number</label>
+  render() {
+    return (
+      <Formik>
+        <form onSubmit={this.handleSubmit}>
+        <label htmlFor={this.InputId}>Name</label>
+
         <input
-            id={this.numberInputId}
+          // id={this.InputId}
+          value={this.state.name}
+          onChange={this.handleInputChange}
+          type="text"
+          name="name"
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
+        />
+        <label>Number</label>
+        <input
+          // id={this.InputId}
           value={this.state.number}
           onChange={this.handleInputChange}
           type="tel"
@@ -58,8 +56,9 @@ class Form extends React.Component {
 
         <button type="submit">Add contact</button>
       </form>
-        )
-    }
+      </Formik>
+    );
+  }
 }
 
 export default Form;
