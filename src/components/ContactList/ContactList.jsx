@@ -1,12 +1,23 @@
-// import React from "react";
+import PropTypes from 'prop-types';
+import { Box } from 'components/Box';
+
 import Contact from '../Contact/Contact';
 
 export default function ContactList({ items, onDeleteContact }) {
   return (
-    <ul>
+    <Box as="ul">
       {items.map(item => (
-        <Contact key={item.id} item={item} onDeleteContact={onDeleteContact}></Contact>
+        <Contact
+          key={item.id}
+          item={item}
+          onDeleteContact={onDeleteContact}
+        ></Contact>
       ))}
-    </ul>
+    </Box>
   );
 }
+
+ContactList.propTypes = {
+  item: PropTypes.objectOf(PropTypes.string),
+  onDeleteContact: PropTypes.func,
+};

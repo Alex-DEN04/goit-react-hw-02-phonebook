@@ -1,8 +1,9 @@
 import React from 'react';
 
-import Form from './Phonebook/Phonebook';
-import ContactList from './ContactList/ContactList';
-import Filter from './Filter/Filter';
+import { ContactForm } from '../Phonebook/Phonebook';
+import ContactList from '../ContactList/ContactList';
+import Filter from '../Filter/Filter';
+import Title from '../Title/Title';
 
 class App extends React.Component {
   state = {
@@ -19,7 +20,6 @@ class App extends React.Component {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== e),
     }));
-
   };
 
   formSubmitHandler = data => {
@@ -29,18 +29,14 @@ class App extends React.Component {
       }
     }
     this.setState(prevState => ({
-        contacts: [data, ...prevState.contacts]
-      }))
-    
-  
+      contacts: [data, ...prevState.contacts],
+    }));
   };
 
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
-    
   };
 
-  
   render() {
     const { contacts, filter } = this.state;
     const normolizedFilter = filter.toLowerCase();
@@ -50,11 +46,16 @@ class App extends React.Component {
     return (
       <>
         <div>
-          <h1>Phonebook</h1>
-          <Form onSubmit={this.formSubmitHandler}></Form>
-          <h2>Contacts</h2>
+          <Title title={'Phonebook'}></Title>
+          <ContactForm
+            onFormSubmitHandler={this.formSubmitHandler}
+          ></ContactForm>
+          <Title title={'Contacts'}></Title>
           <Filter value={filter} onChange={this.changeFilter}></Filter>
-          <ContactList items={filteredContacts} onDeleteContact={this.removeContact}></ContactList>
+          <ContactList
+            items={filteredContacts}
+            onDeleteContact={this.removeContact}
+          ></ContactList>
         </div>
       </>
     );
